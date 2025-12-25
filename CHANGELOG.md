@@ -1,3 +1,18 @@
+## [Version 3.29.0] - 2025-12-25
+
+### ✨ Nouveautés
+
+**Support dynamique des écrans TFT ILI9341 et ST7789**
+
+- Ajout de la sélection du contrôleur d'écran (ILI9341 ou ST7789) dans `config.h` via la macro `TFT_CONTROLLER`.
+- La résolution de l'écran TFT est désormais configurable dans `config.h`.
+- L'affichage est strictement identique quel que soit le contrôleur sélectionné.
+- Documentation et guides mis à jour pour refléter ce changement.
+
+**Breaking change :**
+- Pour changer de contrôleur ou de résolution, modifiez simplement `TFT_CONTROLLER` et les macros associées dans `config.h`.
+
+---
 ## [Version 3.28.5] - 2025-12-24
 
 ### 🐛 Bug Fixes

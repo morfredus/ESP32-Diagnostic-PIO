@@ -6,10 +6,19 @@
 #ifndef TFT_DISPLAY_H
 #define TFT_DISPLAY_H
 
+
 #include <Adafruit_GFX.h>
-#include <Adafruit_ST7789.h>
 #include <SPI.h>
 #include "config.h"
+
+
+#if defined(TFT_USE_ILI9341)
+#include <Adafruit_ILI9341.h>
+#elif defined(TFT_USE_ST7789)
+#include <Adafruit_ST7789.h>
+#else
+#error "Vous devez définir TFT_USE_ILI9341 ou TFT_USE_ST7789 dans config.h !"
+#endif
 
 // Colors
 #define TFT_BLACK       0x0000
@@ -24,16 +33,27 @@
 #define TFT_DARKGREY    0x7BEF
 #define TFT_LIGHTGREY   0xC618
 
-// Global TFT object
+
+// Global TFT object abstraction
+
 #if ENABLE_TFT_DISPLAY
+#if defined(TFT_USE_ILI9341)
+Adafruit_ILI9341 tft = Adafruit_ILI9341(TFT_CS, TFT_DC, TFT_RST);
+#elif defined(TFT_USE_ST7789)
 Adafruit_ST7789 tft = Adafruit_ST7789(TFT_CS, TFT_DC, TFT_RST);
+#endif
 bool tftAvailable = false;
 #endif
 
 // Initialize TFT display
+
 bool initTFT() {
 #if ENABLE_TFT_DISPLAY
+#if defined(TFT_USE_ILI9341)
+  Serial.println("[TFT] Initializing ILI9341 display...");
+#elif defined(TFT_USE_ST7789)
   Serial.println("[TFT] Initializing ST7789 display...");
+#endif
 
   // Configure backlight if enabled
   if (TFT_BL >= 0) {
@@ -41,10 +61,17 @@ bool initTFT() {
     digitalWrite(TFT_BL, HIGH); // Turn on backlight
   }
 
+
   // Initialize display
-  tft.init(TFT_WIDTH, TFT_HEIGHT, SPI_MODE0);
-  tft.setRotation(TFT_ROTATION);
-  tft.fillScreen(TFT_BLACK);
+  #if defined(TFT_USE_ILI9341)
+    tft.begin();
+    tft.setRotation(TFT_ROTATION);
+    tft.fillScreen(TFT_BLACK);
+  #elif defined(TFT_USE_ST7789)
+    tft.init(TFT_WIDTH, TFT_HEIGHT, SPI_MODE0);
+    tft.setRotation(TFT_ROTATION);
+    tft.fillScreen(TFT_BLACK);
+  #endif
 
   tftAvailable = true;
   Serial.println("[TFT] Display initialized successfully");

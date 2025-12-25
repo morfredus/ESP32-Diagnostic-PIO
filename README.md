@@ -1,29 +1,28 @@
-# ESP32 Diagnostic Suite (v3.28.5)
 
-> **Note**: v3.28.5 fixes rotary encoder button stuck + button monitoring GPIO issues. All input device monitoring now works correctly. ✅
+# ESP32 Diagnostic Suite (v3.29.0)
+
+> **Note**: v3.29.0 adds dynamic support for both ILI9341 and ST7789 TFT displays. Select your controller and resolution in `config.h`.
 
 Comprehensive diagnostic firmware for ESP32 microcontrollers with interactive web dashboard, automated hardware tests, and bilingual content (FR/EN). The firmware targets PlatformIO with ESP32 Arduino Core 3.3.3 and supports ESP32-S3 and ESP32 Classic targets.
 
-## ✨ Version 3.28.5 Highlights - Input Monitoring Fixed
 
-**Bug Fixes:**
-1. ✅ **Rotary Encoder Button** - No longer stuck on "Pressed", reads real GPIO state
-2. ✅ **BOOT/Button1/Button2 Monitoring** - Now works correctly using direct constant access
+## ✨ Version 3.29.0 Highlights - Dynamic TFT Controller
 
-**Key Changes:**
+**New Features:**
+- Dynamic selection of TFT controller (`ILI9341` or `ST7789`) via `TFT_CONTROLLER` in `config.h`.
+- Resolution is now also configurable in `config.h`.
+- Display output is identical regardless of controller.
+- Documentation and guides updated accordingly.
+
+**How to use:**
+Edit `include/config.h`:
 ```cpp
-// src/main.cpp:3199-3203 - Read real GPIO for rotary button
-int getRotaryButtonGPIOState() {
-  return digitalRead(rotary_sw_pin);
-}
-
-// src/main.cpp:3185-3199 - Use constants directly for buttons
-int getButtonBootState() {
-  return digitalRead(BUTTON_BOOT);  // Direct constant access
-}
+#define TFT_CONTROLLER      "ST7789" // or "ILI9341"
+#define TFT_WIDTH           240
+#define TFT_HEIGHT          320
 ```
 
-**See:** [CHANGELOG.md](CHANGELOG.md) for full version 3.28.5 details.
+**See:** [CHANGELOG.md](CHANGELOG.md) for full version 3.29.0 details.
 
 ## Previous: Version 3.28.4
 

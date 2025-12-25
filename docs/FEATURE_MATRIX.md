@@ -1,5 +1,9 @@
 # ESP32 Diagnostic Suite – Feature Matrix (v3.28.5)
+# ESP32 Diagnostic Suite – Feature Matrix (v3.29.0)
 
+> NEW in v3.29.0: Dynamic TFT controller selection (ILI9341 or ST7789) and resolution configuration in `config.h`.
+| TFT test | ? | ? | ? | 4MB Flash, **no PSRAM**. Different pin mapping (see PIN_MAPPING.md). No GPIO 35-48 restrictions. |
+| TFT test | ? | ? | ? | 4MB Flash, **no PSRAM**. Different pin mapping (see PIN_MAPPING.md). No GPIO 35-48 restrictions. Supports ST7789 (SPI, 240x240/240x320) and ILI9341 (SPI, 240x320) – configurable in `config.h`. |
 > WARNING: This document reflects firmware v3.28.5 with EXACT pin mappings from `include/board_config.h`. All GPIO assignments have been verified and synchronized with the codebase. Previous documentation (v3.22.1) contained CRITICAL errors. Read [docs/PIN_MAPPING.md](docs/PIN_MAPPING.md) before flashing.
 
 This matrix summarises the diagnostic coverage for the ESP32 boards supported by version 3.28.5 with three distinct build environments.

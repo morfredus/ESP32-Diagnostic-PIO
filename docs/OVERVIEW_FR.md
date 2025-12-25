@@ -11,7 +11,6 @@ La suite ESP32 Diagnostic fournit une boîte à outils prête pour la production
 - Offrir une interface web dédiée aux diagnostics en laboratoire comme sur le terrain, avec un minimum de configuration.
 - Maintenir l'alignement entre firmware, documentation et rapports exportés afin de faciliter la traçabilité des anomalies.
 
-## Résumé des fonctionnalités
 | Domaine | Points clés |
 |---------|-------------|
 | Tableau de bord web | Interface HTML réactive servie directement par l'ESP32 avec indicateurs temps réel, journal d'activité et exports. |
@@ -19,6 +18,17 @@ La suite ESP32 Diagnostic fournit une boîte à outils prête pour la production
 | Reporting | Téléchargements en TXT/JSON/CSV, vue imprimable et hooks REST API pour l'intégration CI. |
 | Localisation | Bascule FR/EN à l'exécution côté firmware (sortie série) et interface web. |
 | Extensibilité | Registre modulaire de tests, bus d'événements pour callbacks personnalisés et helpers OLED/NeoPixel optionnels. |
+
+## Nouveauté v3.29.0 : Sélection dynamique du contrôleur TFT
+
+- Vous pouvez désormais choisir le contrôleur TFT (`ILI9341` ou `ST7789`) et la résolution directement dans `include/config.h` :
+```cpp
+#define TFT_CONTROLLER      "ST7789" // ou "ILI9341"
+#define TFT_WIDTH           240
+#define TFT_HEIGHT          320
+```
+- L'affichage est identique quel que soit le contrôleur.
+- Voir la documentation et le changelog pour plus de détails.
 
 ## Focus de la version 3.15.1
 

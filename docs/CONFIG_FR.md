@@ -1,4 +1,14 @@
-﻿# Configuration (FR) — v3.28.5
+﻿## Sélection du contrôleur TFT et de la résolution (v3.29.0)
+
+Vous pouvez désormais choisir le contrôleur TFT (`ILI9341` ou `ST7789`) et la résolution directement dans `include/config.h` :
+```cpp
+#define TFT_CONTROLLER      "ST7789" // ou "ILI9341"
+#define TFT_WIDTH           240
+#define TFT_HEIGHT          320
+```
+L'affichage est identique quel que soit le contrôleur.
+Voir le changelog pour plus de détails.
+# Configuration (FR) — v3.28.5
 
 > **AVERTISSEMENT** : v3.28.5 corrige des doublons de mapping pour ESP32 Classic et conserve le remapping GPIO pour ESP32-S3. Assurez-vous que votre câblage et la cible compilée correspondent aux broches documentées. Lisez [docs/PIN_MAPPING_FR.md](docs/PIN_MAPPING_FR.md) et [docs/PIN_MAPPING.md](docs/PIN_MAPPING.md) avant de flasher.
 

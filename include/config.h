@@ -37,8 +37,22 @@
 
 // --- TFT Common ---
 #define ENABLE_TFT_DISPLAY  true
-#define TFT_WIDTH           240
-#define TFT_HEIGHT          320
+
+
+// Choix du contrôleur d'écran : décommentez UNE seule ligne
+#define TFT_USE_ILI9341
+// #define TFT_USE_ST7789
+
+#if defined(TFT_USE_ILI9341)
+	#define TFT_WIDTH  240
+	#define TFT_HEIGHT 320
+#elif defined(TFT_USE_ST7789)
+	#define TFT_WIDTH  240
+	#define TFT_HEIGHT 320
+#else
+	#error "Vous devez définir TFT_USE_ILI9341 ou TFT_USE_ST7789 dans config.h !"
+#endif
+
 #define TFT_ROTATION        2
 #define TFT_BACKLIGHT_PWM   255
 

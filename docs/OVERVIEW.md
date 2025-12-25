@@ -10,7 +10,6 @@ The ESP32 Diagnostic Suite delivers a production-ready toolkit for validating ES
 - Offer a web-first control surface for laboratory and field diagnostics with minimal setup overhead.
 - Keep firmware, documentation, and exported reports aligned so QA teams can trace issues quickly.
 
-## Feature summary
 | Area | Highlights |
 |------|------------|
 | Web dashboard | Responsive HTML interface served directly by the ESP32 with live status badges, activity log, and export actions. |
@@ -18,6 +17,17 @@ The ESP32 Diagnostic Suite delivers a production-ready toolkit for validating ES
 | Reporting | Downloadable TXT/JSON/CSV bundles, printable view, and REST API hooks for CI integration. |
 | Localisation | Runtime FR/EN switching at both the firmware (serial output) and interface levels. |
 | Extensibility | Modular test registry, event bus for user-defined callbacks, and optional OLED/NeoPixel helpers. |
+
+## New in v3.29.0: Dynamic TFT Controller Selection
+
+- You can now select the TFT controller (`ILI9341` or `ST7789`) and resolution directly in `include/config.h`:
+```cpp
+#define TFT_CONTROLLER      "ST7789" // or "ILI9341"
+#define TFT_WIDTH           240
+#define TFT_HEIGHT          320
+```
+- The display output is identical regardless of the controller.
+- See the updated documentation and changelog for details.
 
 ## Release 3.15.1 focus
 

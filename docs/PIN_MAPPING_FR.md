@@ -1,4 +1,6 @@
-# Mapping des pins — Référence rapide (v3.28.5)
+# Mapping des pins — Référence rapide (v3.29.0)
+
+> NOUVEAUTÉ v3.29.0 : Sélection dynamique du contrôleur TFT (ILI9341 ou ST7789) et configuration de la résolution dans `config.h`. Voir FEATURE_MATRIX_FR.md.
 
 > **AVERTISSEMENT** : Ce document reflète le mapping de pins EXACT depuis `include/board_config.h` version v3.28.5. Assurez-vous que votre câblage correspond à ces GPIOs avant de mettre sous tension. Un câblage incorrect peut endommager votre ESP32 ou vos périphériques. Lisez ce document entièrement avant de flasher.
 

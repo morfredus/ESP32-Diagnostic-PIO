@@ -1,6 +1,9 @@
-﻿# ESP32 Diagnostic Suite – Référence REST API (v3.28.5)
+﻿
+# ESP32 Diagnostic Suite – Référence REST API (v3.29.0)
 
-> **AVERTISSEMENT** : v3.28.5 corrige des doublons de mapping pour ESP32 Classic et conserve le remapping GPIO pour ESP32-S3. Assurez-vous que votre câblage et la cible compilée correspondent aux broches documentées. Lisez [docs/PIN_MAPPING_FR.md](docs/PIN_MAPPING_FR.md) et [docs/PIN_MAPPING.md](docs/PIN_MAPPING.md) avant de flasher.
+> **NOUVEAUTÉ v3.29.0** : Sélection dynamique du contrôleur TFT (ILI9341 ou ST7789) et configuration de la résolution dans `config.h`. Voir README et CONFIG_FR.md.
+
+> **AVERTISSEMENT** : v3.29.0 permet le choix du contrôleur TFT (ILI9341/ST7789) et la résolution dans `config.h`. Assurez-vous que votre câblage et la cible compilée correspondent aux broches documentées. Lisez [docs/PIN_MAPPING_FR.md](docs/PIN_MAPPING_FR.md) et [docs/PIN_MAPPING.md](docs/PIN_MAPPING.md) avant de flasher.
 
 La REST API reflète les commandes du tableau de bord et expose les données de diagnostic pour l'automatisation. Tous les endpoints
 sont servis en HTTP sur le même port que l'interface web. L'authentification est stateless ; sécurisez l'accès au niveau réseau

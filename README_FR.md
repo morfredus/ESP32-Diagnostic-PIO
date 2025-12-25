@@ -1,29 +1,28 @@
-# ESP32 Diagnostic Suite (v3.28.5)
 
-> **Note** : v3.28.5 corrige le bouton encodeur bloqué + problèmes GPIO monitoring boutons. Tout le monitoring des dispositifs d'entrée fonctionne correctement maintenant. ✅
+# ESP32 Diagnostic Suite (v3.29.0)
+
+> **Note** : v3.29.0 ajoute la prise en charge dynamique des écrans TFT ILI9341 et ST7789. Sélectionnez le contrôleur et la résolution dans `config.h`.
 
 Firmware de diagnostic complet pour microcontrôleurs ESP32 avec tableau de bord web interactif, tests matériels automatisés et contenu bilingue (FR/EN). Le firmware cible PlatformIO avec ESP32 Arduino Core 3.3.3 et supporte les cibles ESP32-S3 et ESP32 Classic.
 
-## ✨ Nouveautés de la version 3.28.5 - Monitoring Entrées Corrigé
 
-**Corrections de Bugs :**
-1. ✅ **Bouton Encodeur Rotatif** - Plus bloqué sur "Pressed", lit l'état GPIO réel
-2. ✅ **Monitoring BOOT/Bouton1/Bouton2** - Fonctionne maintenant avec accès direct aux constantes
+## ✨ Nouveautés de la version 3.29.0 - Sélection dynamique du contrôleur TFT
 
-**Changements Clés :**
+**Nouvelles fonctionnalités :**
+- Sélection dynamique du contrôleur TFT (`ILI9341` ou `ST7789`) via `TFT_CONTROLLER` dans `config.h`.
+- La résolution est également configurable dans `config.h`.
+- L'affichage est identique quel que soit le contrôleur.
+- Documentation et guides mis à jour.
+
+**Comment faire ?**
+Modifiez `include/config.h` :
 ```cpp
-// src/main.cpp:3199-3203 - Lecture GPIO réel pour bouton encodeur
-int getRotaryButtonGPIOState() {
-  return digitalRead(rotary_sw_pin);
-}
-
-// src/main.cpp:3185-3199 - Utilisation directe des constantes pour boutons
-int getButtonBootState() {
-  return digitalRead(BUTTON_BOOT);  // Accès direct à la constante
-}
+#define TFT_CONTROLLER      "ST7789" // ou "ILI9341"
+#define TFT_WIDTH           240
+#define TFT_HEIGHT          320
 ```
 
-**Voir :** [CHANGELOG_FR.md](CHANGELOG_FR.md) pour les détails complets de la version 3.28.5.
+**Voir :** [CHANGELOG_FR.md](CHANGELOG_FR.md) pour les détails complets de la version 3.29.0.
 
 ## Précédent : version 3.28.4
 

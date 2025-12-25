@@ -1,4 +1,6 @@
-# Pin Mapping – Quick Reference (v3.28.5)
+# Pin Mapping – Quick Reference (v3.29.0)
+
+> NEW in v3.29.0: Dynamic TFT controller selection (ILI9341 or ST7789) and resolution configuration in `config.h`. See FEATURE_MATRIX.md.
 
 > WARNING: This document reflects the EXACT pin mapping from `include/board_config.h` as of v3.28.5. Ensure your wiring matches these GPIOs before powering on. Incorrect wiring may damage your ESP32 or peripherals. Read this entire document before flashing.
 

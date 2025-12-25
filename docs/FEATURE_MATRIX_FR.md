@@ -1,5 +1,9 @@
 # ESP32 Diagnostic Suite – Matrice des fonctionnalités (v3.28.5)
+# ESP32 Diagnostic Suite – Matrice des fonctionnalités (v3.29.0)
 
+> NOUVEAUTÉ v3.29.0 : Sélection dynamique du contrôleur TFT (ILI9341 ou ST7789) et configuration de la résolution dans `config.h`.
+| Test TFT | ✅ | ✅ | ✅ | ESP32 classique. 4Mo Flash, sans PSRAM. Pas de restriction GPIO 35-48. |
+| Test TFT | ✅ | ✅ | ✅ | ESP32 classique. 4Mo Flash, sans PSRAM. Pas de restriction GPIO 35-48. Prend en charge ST7789 (SPI, 240x240/240x320) et ILI9341 (SPI, 240x320) – configurable dans `config.h`. |
 > **AVERTISSEMENT** : Ce document reflète le firmware v3.28.5 avec mappings de broches EXACTS depuis `include/board_config.h`. Toutes les assignations GPIO ont été vérifiées et synchronisées avec le code. La documentation précédente (v3.22.1) contenait des erreurs CRITIQUES. Lisez [docs/PIN_MAPPING_FR.md](docs/PIN_MAPPING_FR.md) avant de flasher.
 
 Cette matrice résume la couverture des diagnostics pour les cartes Espressif supportées par la version 3.28.5 et ses trois environnements de build.
