@@ -2,6 +2,7 @@
  * TFT_DISPLAY.H - Dynamic TFT Display Management
  * Support for runtime selection between ILI9341 and ST7789 TFT controllers
  * v3.30.0 - Dynamic driver switching without recompilation
+ * v3.33.2 - PWM backlight brightness control
  */
 
 #ifndef TFT_DISPLAY_H
@@ -44,6 +45,17 @@ Adafruit_GFX* tft = nullptr;  // Generic pointer to active driver
 
 bool tftAvailable = false;
 
+// ============================================================
+// TFT BACKLIGHT PWM CONTROL (v3.33.2)
+// ============================================================
+// PWM channel dedicated to TFT backlight (avoiding conflicts with channel 0 used in tests)
+const uint8_t TFT_BACKLIGHT_PWM_CHANNEL = 1;
+const uint16_t TFT_BACKLIGHT_PWM_FREQ = 5000;  // 5 kHz
+const uint8_t TFT_BACKLIGHT_PWM_RESOLUTION = 8;  // 8-bit (0-255)
+
+// Current brightness level (0-255)
+uint8_t tft_current_brightness = TFT_BACKLIGHT_PWM;  // Default from config.h
+
 // Get current driver type as string
 const char* getTFTDriverName() {
   return (currentTFTDriver == TFT_DRIVER_ILI9341) ? "ILI9341" : "ST7789";
@@ -62,9 +74,10 @@ void deinitTFT() {
   Serial.print(getTFTDriverName());
   Serial.println(" driver...");
 
-  // Turn off backlight before deinit
+  // Turn off backlight before deinit (PWM off)
   if (TFT_BL >= 0) {
-    digitalWrite(TFT_BL, LOW);
+    ledcWrite(TFT_BACKLIGHT_PWM_CHANNEL, 0);
+    ledcDetachPin(TFT_BL);
   }
 
   // Clear the generic pointer
@@ -94,10 +107,16 @@ bool initTFT(TFT_DriverType driverType, int width, int height, int rotation) {
   Serial.print((driverType == TFT_DRIVER_ILI9341) ? "ILI9341" : "ST7789");
   Serial.println(" display...");
 
-  // Configure backlight if enabled
+  // Configure backlight PWM if enabled
   if (TFT_BL >= 0) {
-    pinMode(TFT_BL, OUTPUT);
-    digitalWrite(TFT_BL, HIGH); // Turn on backlight
+    // Setup PWM channel for backlight control
+    ledcSetup(TFT_BACKLIGHT_PWM_CHANNEL, TFT_BACKLIGHT_PWM_FREQ, TFT_BACKLIGHT_PWM_RESOLUTION);
+    ledcAttachPin(TFT_BL, TFT_BACKLIGHT_PWM_CHANNEL);
+    ledcWrite(TFT_BACKLIGHT_PWM_CHANNEL, tft_current_brightness);  // Set to default brightness
+
+    Serial.print("[TFT] Backlight PWM initialized (brightness: ");
+    Serial.print(tft_current_brightness);
+    Serial.println("/255)");
   }
 
   // Initialize the selected driver
@@ -296,17 +315,38 @@ void updateTFTDisplay(const char* chipModel, const char* ipAddr, unsigned long u
   tft->println("ONLINE");
 }
 
-// Turn off backlight
-void tftBacklightOff() {
+// ============================================================
+// BACKLIGHT CONTROL FUNCTIONS (v3.33.2)
+// ============================================================
+
+// Set TFT backlight brightness using PWM (0-255)
+void setTFTBrightness(uint8_t brightness) {
   if (TFT_BL >= 0) {
-    digitalWrite(TFT_BL, LOW);
+    tft_current_brightness = brightness;
+    ledcWrite(TFT_BACKLIGHT_PWM_CHANNEL, brightness);
+
+    Serial.print("[TFT] Brightness set to: ");
+    Serial.print(brightness);
+    Serial.println("/255");
   }
 }
 
-// Turn on backlight
+// Get current brightness level
+uint8_t getTFTBrightness() {
+  return tft_current_brightness;
+}
+
+// Turn off backlight (set brightness to 0)
+void tftBacklightOff() {
+  setTFTBrightness(0);
+}
+
+// Turn on backlight (restore to previous brightness or default)
 void tftBacklightOn() {
-  if (TFT_BL >= 0) {
-    digitalWrite(TFT_BL, HIGH);
+  if (tft_current_brightness == 0) {
+    setTFTBrightness(TFT_BACKLIGHT_PWM);  // Restore to default
+  } else {
+    setTFTBrightness(tft_current_brightness);
   }
 }
 
@@ -330,6 +370,8 @@ void displayWiFiStatus(const char* status, uint16_t color = 0) {}
 void displayWiFiConnected(const char* ssid, const char* ipAddress) {}
 void displayWiFiFailed() {}
 void updateTFTDisplay(const char* chipModel, const char* ipAddr, unsigned long uptime) {}
+void setTFTBrightness(uint8_t brightness) {}
+uint8_t getTFTBrightness() { return 0; }
 void tftBacklightOff() {}
 void tftBacklightOn() {}
 void clearTFT() {}

@@ -4,6 +4,82 @@
 - No delay, no blocking: LED remains fluid, no performance impact.
 - Documented and optimized code.
 
+## [Version 3.33.2] - 2026-01-02
+
+### ✨ New Features
+
+**TFT Backlight PWM Brightness Control**
+
+This minor release adds dynamic PWM-based brightness control for the TFT display backlight, allowing users to adjust screen brightness in real-time via web interface.
+
+#### 🎯 New Features
+
+- **PWM Brightness Control**: TFT backlight now uses PWM (0-255) instead of simple ON/OFF
+- **Web API Endpoint**: `/api/tft-brightness` for real-time brightness adjustment
+- **Dedicated PWM Channel**: Uses LEDC channel 1 (avoiding conflicts with other PWM uses)
+- **Default Brightness**: 255 (maximum) from `config.h` (`TFT_BACKLIGHT_PWM`)
+- **Smooth Transitions**: Hardware PWM at 5 kHz for flicker-free dimming
+
+#### 📝 Technical Details
+
+- **Modified Files**:
+  - `include/tft_display.h` - PWM backlight control functions
+  - `src/main.cpp` - New API endpoint `/api/tft-brightness`
+  - `platformio.ini` - Version bump to 3.33.2
+
+- **New Functions**:
+  ```cpp
+  void setTFTBrightness(uint8_t brightness)  // Set brightness 0-255
+  uint8_t getTFTBrightness()                 // Get current brightness
+  ```
+
+- **API Endpoint**: `/api/tft-brightness`
+  - **GET**: Returns current brightness level (JSON)
+  - **POST**: Set brightness with `value` parameter (0-255)
+  - **Response**: JSON with brightness, min, max values
+
+#### 🔧 PWM Configuration
+
+| Parameter | Value | Description |
+|-----------|-------|-------------|
+| PWM Channel | 1 | Dedicated to TFT backlight (avoids conflict with channel 0) |
+| PWM Frequency | 5000 Hz | 5 kHz for flicker-free operation |
+| PWM Resolution | 8-bit | 0-255 brightness levels |
+| Default Brightness | 255 | Maximum brightness (configurable in `config.h`) |
+
+#### 📡 API Usage Examples
+
+**Get current brightness:**
+```bash
+curl http://esp32.local/api/tft-brightness
+# Response: {"brightness":255,"min":0,"max":255}
+```
+
+**Set brightness to 50% (128):**
+```bash
+curl "http://esp32.local/api/tft-brightness?value=128"
+# Response: {"success":true,"message":"TFT brightness set to 128/255","brightness":128}
+```
+
+**Turn off backlight (brightness 0):**
+```bash
+curl "http://esp32.local/api/tft-brightness?value=0"
+```
+
+#### ⚠️ Important Notes
+
+- **ESP32-S3**: TFT_BL on GPIO 7
+- **ESP32 Classic**: TFT_BL on GPIO 32
+- **PWM Channel**: Channel 1 dedicated to backlight (channel 0 reserved for PWM tests)
+- **Brightness Persistence**: Current brightness level maintained until changed or device reset
+
+### 🔄 Version Control
+
+- **Version bumped**: `3.33.1` → `3.33.2` in `platformio.ini`
+- This is a **MINOR** version increment per SEMVER (new feature, backward compatible)
+
+---
+
 ## [Version 3.33.1] - 2026-01-02
 
 ### 🐛 Bug Fixes

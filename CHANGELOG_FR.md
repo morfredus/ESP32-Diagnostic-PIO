@@ -1,3 +1,79 @@
+## [Version 3.33.2] - 2026-01-02
+
+### ✨ Nouvelles Fonctionnalités
+
+**Contrôle PWM de la Luminosité du Rétroéclairage TFT**
+
+Cette version mineure ajoute un contrôle de luminosité basé sur PWM pour le rétroéclairage de l'écran TFT, permettant aux utilisateurs d'ajuster la luminosité de l'écran en temps réel via l'interface web.
+
+#### 🎯 Nouvelles Fonctionnalités
+
+- **Contrôle de Luminosité PWM** : Le rétroéclairage TFT utilise maintenant le PWM (0-255) au lieu d'un simple ON/OFF
+- **Point de Terminaison API Web** : `/api/tft-brightness` pour ajustement de luminosité en temps réel
+- **Canal PWM Dédié** : Utilise le canal LEDC 1 (évitant les conflits avec d'autres utilisations PWM)
+- **Luminosité par Défaut** : 255 (maximum) depuis `config.h` (`TFT_BACKLIGHT_PWM`)
+- **Transitions Fluides** : PWM matériel à 5 kHz pour gradation sans scintillement
+
+#### 📝 Détails Techniques
+
+- **Fichiers Modifiés** :
+  - `include/tft_display.h` - Fonctions de contrôle de rétroéclairage PWM
+  - `src/main.cpp` - Nouveau point de terminaison API `/api/tft-brightness`
+  - `platformio.ini` - Incrémentation de version à 3.33.2
+
+- **Nouvelles Fonctions** :
+  ```cpp
+  void setTFTBrightness(uint8_t brightness)  // Définir luminosité 0-255
+  uint8_t getTFTBrightness()                 // Obtenir luminosité actuelle
+  ```
+
+- **Point de Terminaison API** : `/api/tft-brightness`
+  - **GET** : Retourne le niveau de luminosité actuel (JSON)
+  - **POST** : Définir la luminosité avec paramètre `value` (0-255)
+  - **Réponse** : JSON avec valeurs brightness, min, max
+
+#### 🔧 Configuration PWM
+
+| Paramètre | Valeur | Description |
+|-----------|--------|-------------|
+| Canal PWM | 1 | Dédié au rétroéclairage TFT (évite conflit avec canal 0) |
+| Fréquence PWM | 5000 Hz | 5 kHz pour fonctionnement sans scintillement |
+| Résolution PWM | 8-bit | 256 niveaux de luminosité (0-255) |
+| Luminosité par Défaut | 255 | Luminosité maximale (configurable dans `config.h`) |
+
+#### 📡 Exemples d'Utilisation de l'API
+
+**Obtenir la luminosité actuelle :**
+```bash
+curl http://esp32.local/api/tft-brightness
+# Réponse: {"brightness":255,"min":0,"max":255}
+```
+
+**Définir luminosité à 50% (128) :**
+```bash
+curl "http://esp32.local/api/tft-brightness?value=128"
+# Réponse: {"success":true,"message":"TFT brightness set to 128/255","brightness":128}
+```
+
+**Éteindre le rétroéclairage (luminosité 0) :**
+```bash
+curl "http://esp32.local/api/tft-brightness?value=0"
+```
+
+#### ⚠️ Notes Importantes
+
+- **ESP32-S3** : TFT_BL sur GPIO 7
+- **ESP32 Classic** : TFT_BL sur GPIO 32
+- **Canal PWM** : Canal 1 dédié au rétroéclairage (canal 0 réservé pour tests PWM)
+- **Persistance Luminosité** : Le niveau de luminosité actuel est maintenu jusqu'à modification ou réinitialisation
+
+### 🔄 Contrôle de Version
+
+- **Version incrémentée** : `3.33.1` → `3.33.2` dans `platformio.ini`
+- Ceci est une incrémentation de version **MINEURE** selon SEMVER (nouvelle fonctionnalité, rétrocompatible)
+
+---
+
 ## [Version 3.33.1] - 2026-01-02
 
 ### 🐛 Corrections de Bugs

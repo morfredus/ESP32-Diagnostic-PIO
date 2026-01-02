@@ -4042,6 +4042,48 @@ void handleTFTConfig() {
 #endif
 }
 
+// ============================================================
+// TFT BRIGHTNESS CONTROL API (v3.33.2)
+// ============================================================
+void handleTFTBrightness() {
+#if ENABLE_TFT_DISPLAY
+  // GET request: return current brightness
+  if (server.method() == HTTP_GET) {
+    uint8_t currentBrightness = getTFTBrightness();
+    sendJsonResponse(200, {
+      jsonNumberField("brightness", currentBrightness),
+      jsonNumberField("min", 0),
+      jsonNumberField("max", 255)
+    });
+    return;
+  }
+
+  // POST/PUT request: set new brightness
+  if (!server.hasArg("value")) {
+    sendOperationError(400, "Brightness value missing (0-255)", {});
+    return;
+  }
+
+  int brightness = server.arg("value").toInt();
+
+  // Validate brightness range
+  if (brightness < 0 || brightness > 255) {
+    sendOperationError(400, "Brightness must be between 0 and 255", {});
+    return;
+  }
+
+  // Set new brightness
+  setTFTBrightness(static_cast<uint8_t>(brightness));
+
+  String message = "TFT brightness set to " + String(brightness) + "/255";
+  sendOperationSuccess(message, {
+    jsonNumberField("brightness", brightness)
+  });
+#else
+  sendActionResponse(200, false, "TFT not enabled");
+#endif
+}
+
 void handleADCTest() {
   testADC();
   String json;
@@ -6095,7 +6137,8 @@ void setup() {
   server.on("/api/tft-step", handleTFTStep);
   server.on("/api/tft-boot", handleTFTBoot);
   server.on("/api/tft-config", handleTFTConfig);
-  
+  server.on("/api/tft-brightness", handleTFTBrightness);  // v3.33.2: PWM brightness control
+
   // Tests avancés
   server.on("/api/adc-test", handleADCTest);
   server.on("/api/pwm-test", handlePWMTest);

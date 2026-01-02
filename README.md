@@ -1,19 +1,27 @@
 
-# ESP32 Diagnostic Suite (v3.33.1)
+# ESP32 Diagnostic Suite (v3.33.2)
 
 > **Note**: v3.31.0 introduces **readable web interface source code** with automatic minification! Develop in clean, maintainable code while keeping optimized firmware size.
 
 Comprehensive diagnostic firmware for ESP32 microcontrollers with interactive web dashboard, automated hardware tests, and bilingual content (FR/EN). The firmware targets PlatformIO with ESP32 Arduino Core 3.3.3 and supports ESP32-S3 and ESP32 Classic targets.
 
 
-## 🐛 Version 3.33.1 - ESP32 Classic Compilation Fix
+## ✨ Version 3.33.2 - TFT Brightness Control
+
+**New Feature:**
+- **PWM Brightness Control** for TFT backlight (0-255 levels)
+- **Real-time adjustment** via web API `/api/tft-brightness`
+- **Smooth dimming** at 5 kHz PWM frequency
+- **Default brightness**: 255 (maximum)
+
+See [CHANGELOG.md](CHANGELOG.md) for full details.
+
+## Previous: Version 3.33.1 - ESP32 Classic Compilation Fix
 
 **Patch Release:**
 - **Fixed critical compilation error** for ESP32 Classic (`esp32devkitc` environment)
 - **Added missing pin definitions**: `MOTION_SENSOR` (GPIO 34) and `NEOPIXEL` (GPIO 2)
 - **ESP32-S3 unaffected** - this fix only impacts ESP32 Classic users
-
-See [CHANGELOG.md](CHANGELOG.md) for full details.
 
 ## Previous: Version 3.33.0 - TFT, NeoPixel & BOOT
 
