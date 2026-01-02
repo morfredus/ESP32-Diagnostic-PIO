@@ -1,12 +1,24 @@
 
-# ESP32 Suite de Diagnostic (v3.33.3)
+# ESP32 Suite de Diagnostic (v3.33.4)
 
 > **Note** : v3.31.0 introduit **le code source lisible de l'interface web** avec minification automatique ! Développez en code clair et maintenable tout en gardant une taille de firmware optimisée.
 
 Firmware de diagnostic complet pour microcontrôleurs ESP32 avec tableau de bord web interactif, tests matériels automatisés et contenu bilingue (FR/EN). Le firmware cible PlatformIO avec ESP32 Arduino Core 3.3.3 et supporte les cibles ESP32-S3 et ESP32 Classic.
 
 
-## ✨ Version 3.33.3 - Interface Web de Contrôle de Luminosité TFT
+## ✨ Version 3.33.4 - Correction UX : Plus de Rechargement de Page
+
+**Bug Corrigé :**
+- **Suppression du rechargement de page** sur les boutons "Appliquer la Configuration"
+- **Rester sur la page actuelle** après application des paramètres
+- **Expérience web moderne et fluide** avec mises à jour dynamiques
+- **Corrigé dans la page Affichage & Signal** (LED intégrée, NeoPixel, Écran TFT)
+
+Fini la redirection perturbante vers la page Vue d'ensemble après configuration !
+
+Voir [CHANGELOG_FR.md](CHANGELOG_FR.md) pour tous les détails.
+
+## Précédent : Version 3.33.3 - Interface Web de Contrôle de Luminosité TFT
 
 **Nouvelles Fonctionnalités :**
 - **Curseur de luminosité interactif** dans la section Écran TFT
@@ -14,8 +26,6 @@ Firmware de diagnostic complet pour microcontrôleurs ESP32 avec tableau de bord
 - **Contrôle de luminosité en temps réel** (0-255) via interface web
 - **Support bilingue** (FR/EN) pour tous les éléments d'interface
 - **Curseur stylisé** avec fond en dégradé et effets au survol
-
-Voir [CHANGELOG_FR.md](CHANGELOG_FR.md) pour tous les détails.
 
 ## Précédent : Version 3.33.2 - Contrôle de Luminosité TFT
 

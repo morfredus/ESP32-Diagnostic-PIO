@@ -1,12 +1,24 @@
 
-# ESP32 Diagnostic Suite (v3.33.3)
+# ESP32 Diagnostic Suite (v3.33.4)
 
 > **Note**: v3.31.0 introduces **readable web interface source code** with automatic minification! Develop in clean, maintainable code while keeping optimized firmware size.
 
 Comprehensive diagnostic firmware for ESP32 microcontrollers with interactive web dashboard, automated hardware tests, and bilingual content (FR/EN). The firmware targets PlatformIO with ESP32 Arduino Core 3.3.3 and supports ESP32-S3 and ESP32 Classic targets.
 
 
-## ✨ Version 3.33.3 - TFT Brightness Web UI
+## ✨ Version 3.33.4 - UX Fix: No More Page Reload
+
+**Bug Fixed:**
+- **Removed page reload** on "Apply Configuration" buttons
+- **Stay on current page** after applying settings
+- **Modern, smooth web experience** with dynamic updates
+- **Fixed in Display & Signal** page (Built-in LED, NeoPixel, TFT Display)
+
+No more jarring redirect to Overview page after configuration!
+
+See [CHANGELOG.md](CHANGELOG.md) for full details.
+
+## Previous: Version 3.33.3 - TFT Brightness Web UI
 
 **New Features:**
 - **Interactive brightness slider** in TFT Display section
@@ -14,8 +26,6 @@ Comprehensive diagnostic firmware for ESP32 microcontrollers with interactive we
 - **Real-time brightness control** (0-255) via web interface
 - **Bilingual support** (FR/EN) for all UI elements
 - **Styled slider** with gradient background and hover effects
-
-See [CHANGELOG.md](CHANGELOG.md) for full details.
 
 ## Previous: Version 3.33.2 - TFT Brightness Control
 

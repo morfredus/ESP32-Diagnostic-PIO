@@ -1,3 +1,77 @@
+## [Version 3.33.4] - 2026-01-02
+
+### 🐛 Correction de Bug - Amélioration UX
+
+**Suppression du Rechargement de Page lors de l'Application de Configuration**
+
+Cette version corrective résout un problème UX désagréable où cliquer sur les boutons "Appliquer la Configuration" provoquait un rechargement complet de la page et redirigait les utilisateurs vers la page Vue d'ensemble.
+
+#### 🎯 Problème Corrigé
+
+Lorsque les utilisateurs cliquaient sur "Appliquer la Configuration" dans la page **Affichage & Signal** (sections LED intégrée, NeoPixel, Écran TFT), la page effectuait un `location.reload()` complet après 1,5-2 secondes, causant :
+- ❌ Perte du contexte de la page actuelle
+- ❌ Redirection forcée vers la page Vue d'ensemble
+- ❌ Interruption du flux de travail
+- ❌ Expérience utilisateur non moderne et perturbante
+
+#### ✅ Solution Implémentée
+
+**Suppression de tous les rechargements de page** et remplacement par des **mises à jour dynamiques du DOM** sans navigation :
+- ✅ Les utilisateurs restent sur la page actuelle après la configuration
+- ✅ Expérience d'application web moderne et fluide
+- ✅ Retour visuel instantané
+- ✅ Aucune interruption du flux de travail
+
+#### 📝 Détails Techniques
+
+**Fonctions Modifiées dans `web_src/app.js` :**
+
+| Fonction | Ligne | Ancien Comportement | Nouveau Comportement |
+|----------|-------|---------------------|----------------------|
+| `configBuiltinLED()` | 1052-1067 | `location.reload()` après 1500ms | Mise à jour dynamique de l'affichage GPIO |
+| `configNeoPixel()` | 1097-1117 | `location.reload()` après 1500ms | Mise à jour dynamique de l'affichage GPIO et du nombre |
+| `configTFT()` | 1258-1299 | `location.reload()` après 2000ms | Mise à jour dynamique de l'affichage des pins et de la résolution |
+
+**Modifications :**
+```javascript
+// AVANT (v3.33.3)
+if (d.success) {
+    setTimeout(() => location.reload(), 1500);
+}
+
+// APRÈS (v3.33.4)
+if (d.success) {
+    // Mise à jour de l'affichage GPIO dynamiquement sans rechargement de page
+    const gpioDisplay = document.getElementById('builtin-gpio-display');
+    if (gpioDisplay) {
+        gpioDisplay.textContent = gpio;
+    }
+}
+```
+
+**Bonne Pratique Déjà Présente :**
+- `configOLED()` effectuait déjà correctement des mises à jour dynamiques (pas de rechargement)
+- Toutes les fonctions `apply*()` (RGB, Buzzer, DHT, etc.) fonctionnaient déjà correctement (pas de rechargement)
+
+#### 🔧 Fichiers Modifiés
+
+- `web_src/app.js` - Suppression de 3 appels `location.reload()`, ajout de mises à jour dynamiques du DOM
+- `platformio.ini` - Incrémentation de version à 3.33.4
+
+#### ⚠️ Notes Importantes
+
+- **Aucun Changement Backend** : Il s'agit purement d'une correction UX frontend
+- **Rétrocompatible** : Tous les points de terminaison API existants fonctionnent sans changement
+- **Minification Requise** : Exécuter `python tools/minify_web.py` après avoir récupéré les modifications
+- **Toutes les Pages Révisées** : Vérification qu'aucune autre page n'a ce problème
+
+### 🔄 Contrôle de Version
+
+- **Version incrémentée** : `3.33.3` → `3.33.4` dans `platformio.ini`
+- Ceci est une incrémentation de version **PATCH** selon SEMVER (correction de bug, amélioration UX, rétrocompatible)
+
+---
+
 ## [Version 3.33.3] - 2026-01-02
 
 ### ✨ Amélioration de l'Interface Utilisateur

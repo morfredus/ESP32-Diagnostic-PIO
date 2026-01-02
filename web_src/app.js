@@ -1058,7 +1058,11 @@ async function configBuiltinLED() {
     const d = await r.json();
     setStatus('builtin-led-status', d.message, d.success ? 'success' : 'error');
     if (d.success) {
-        setTimeout(() => location.reload(), 1500);
+        // Update GPIO display dynamically without page reload (v3.33.4)
+        const gpioDisplay = document.getElementById('builtin-gpio-display');
+        if (gpioDisplay) {
+            gpioDisplay.textContent = gpio;
+        }
     }
 }
 async function neoCustomColor() {
@@ -1100,7 +1104,15 @@ async function configNeoPixel() {
     const d = await r.json();
     setStatus('neopixel-status', d.message, d.success ? 'success' : 'error');
     if (d.success) {
-        setTimeout(() => location.reload(), 1500);
+        // Update GPIO and count display dynamically without page reload (v3.33.4)
+        const gpioDisplay = document.getElementById('neopixel-gpio-display');
+        if (gpioDisplay) {
+            gpioDisplay.textContent = gpio;
+        }
+        const countDisplay = document.getElementById('neopixel-count-display');
+        if (countDisplay) {
+            countDisplay.textContent = count;
+        }
     }
 }
 async function testOLED() {
@@ -1268,7 +1280,15 @@ async function configTFT() {
         };
         setStatus('tft-status', statusPayload, d.success ? 'success' : 'error');
         if (d.success) {
-            setTimeout(() => location.reload(), 2000);
+            // Update TFT configuration display dynamically without page reload (v3.33.4)
+            const pinsDisplay = document.getElementById('tft-pins-display');
+            if (pinsDisplay) {
+                pinsDisplay.textContent = 'MISO:' + miso + ' MOSI:' + mosi + ' SCLK:' + sclk + ' CS:' + cs + ' DC:' + dc + ' RST:' + rst;
+            }
+            const resolutionDisplay = document.getElementById('tft-resolution');
+            if (resolutionDisplay) {
+                resolutionDisplay.textContent = width + ' x ' + height;
+            }
         }
     } catch (e) {
         setStatus('tft-status', {

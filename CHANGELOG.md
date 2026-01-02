@@ -4,6 +4,80 @@
 - No delay, no blocking: LED remains fluid, no performance impact.
 - Documented and optimized code.
 
+## [Version 3.33.4] - 2026-01-02
+
+### 🐛 Bug Fix - UX Enhancement
+
+**Removed Page Reload on Configuration Apply**
+
+This patch release fixes an unpleasant UX issue where clicking "Apply Configuration" buttons caused a full page reload and redirected users back to the Overview page.
+
+#### 🎯 Problem Fixed
+
+When users clicked "Apply Configuration" in the **Display & Signal** page (Built-in LED, NeoPixel, TFT Display sections), the page performed a full `location.reload()` after 1.5-2 seconds, causing:
+- ❌ Loss of current page context
+- ❌ Forced redirect to Overview page
+- ❌ Interruption of workflow
+- ❌ Non-modern, jarring user experience
+
+#### ✅ Solution Implemented
+
+**Removed all page reloads** and replaced with **dynamic DOM updates** without navigation:
+- ✅ Users stay on current page after configuration
+- ✅ Smooth, modern web app experience
+- ✅ Instant visual feedback
+- ✅ No interruption to workflow
+
+#### 📝 Technical Details
+
+**Modified Functions in `web_src/app.js`:**
+
+| Function | Line | Old Behavior | New Behavior |
+|----------|------|--------------|--------------|
+| `configBuiltinLED()` | 1052-1067 | `location.reload()` after 1500ms | Dynamic update of GPIO display |
+| `configNeoPixel()` | 1097-1117 | `location.reload()` after 1500ms | Dynamic update of GPIO and count display |
+| `configTFT()` | 1258-1299 | `location.reload()` after 2000ms | Dynamic update of pins and resolution display |
+
+**Changes:**
+```javascript
+// BEFORE (v3.33.3)
+if (d.success) {
+    setTimeout(() => location.reload(), 1500);
+}
+
+// AFTER (v3.33.4)
+if (d.success) {
+    // Update GPIO display dynamically without page reload
+    const gpioDisplay = document.getElementById('builtin-gpio-display');
+    if (gpioDisplay) {
+        gpioDisplay.textContent = gpio;
+    }
+}
+```
+
+**Good Practice Already Present:**
+- `configOLED()` was already doing dynamic updates correctly (no reload)
+- All `apply*()` functions (RGB, Buzzer, DHT, etc.) were already working correctly (no reload)
+
+#### 🔧 Modified Files
+
+- `web_src/app.js` - Removed 3 `location.reload()` calls, added dynamic DOM updates
+- `platformio.ini` - Version bump to 3.33.4
+
+#### ⚠️ Important Notes
+
+- **No Backend Changes**: This is purely a frontend UX fix
+- **Backward Compatible**: All existing API endpoints work unchanged
+- **Minification Required**: Run `python tools/minify_web.py` after pulling changes
+- **All Pages Reviewed**: Verified no other pages have this issue
+
+### 🔄 Version Control
+
+- **Version bumped**: `3.33.3` → `3.33.4` in `platformio.ini`
+- This is a **PATCH** version increment per SEMVER (bug fix, UX enhancement, backward compatible)
+
+---
+
 ## [Version 3.33.3] - 2026-01-02
 
 ### ✨ User Interface Enhancement
