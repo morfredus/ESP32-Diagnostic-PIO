@@ -1,20 +1,27 @@
 
-# ESP32 Diagnostic Suite (v3.33.0)
+# ESP32 Diagnostic Suite (v3.33.1)
 
 > **Note**: v3.31.0 introduces **readable web interface source code** with automatic minification! Develop in clean, maintainable code while keeping optimized firmware size.
 
 Comprehensive diagnostic firmware for ESP32 microcontrollers with interactive web dashboard, automated hardware tests, and bilingual content (FR/EN). The firmware targets PlatformIO with ESP32 Arduino Core 3.3.3 and supports ESP32-S3 and ESP32 Classic targets.
 
 
-## 🚀 Version 3.32.0 - TFT, NeoPixel & BOOT
+## 🐛 Version 3.33.1 - ESP32 Classic Compilation Fix
+
+**Patch Release:**
+- **Fixed critical compilation error** for ESP32 Classic (`esp32devkitc` environment)
+- **Added missing pin definitions**: `MOTION_SENSOR` (GPIO 34) and `NEOPIXEL` (GPIO 2)
+- **ESP32-S3 unaffected** - this fix only impacts ESP32 Classic users
+
+See [CHANGELOG.md](CHANGELOG.md) for full details.
+
+## Previous: Version 3.33.0 - TFT, NeoPixel & BOOT
 
 **What's new:**
 - Smooth, flicker-free TFT progress bar, optimized partial redraw
 - NeoPixel purple during progress, Earthbeat restored if cancelled
 - Clean boot screen return, robust state machine, refactored code
 - Detailed internal documentation
-
-See [CHANGELOG.md](CHANGELOG.md) for full details.
 
 ## ✨ Version 3.31.0 - Readable Web Interface Source Code
 

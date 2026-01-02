@@ -233,10 +233,12 @@
 // ------------------------------------
 // Capteurs & Sorties
 // ------------------------------------
-#define PWM          4  // PWM générique – sortie 3.3V
-#define BUZZER      19  // Commande buzzer – sortie 3.3V, transistor + R base 1–10 kO
-#define DHT         15  // Capteur DHT – DATA 3.3V, pull-up 10 kO si nécessaire
-#define LIGHT_SENSOR 39 // LDR via diviseur – entrée ADC 3.3V max, R typique 10 kO
+#define PWM            4  // PWM générique – sortie 3.3V
+#define BUZZER        19  // Commande buzzer – sortie 3.3V, transistor + R base 1–10 kO
+#define DHT           15  // Capteur DHT – DATA 3.3V, pull-up 10 kO si nécessaire
+#define MOTION_SENSOR 34  // PIR – entrée 3.3V (GPIO34 = entrée uniquement, adapter si module 5V)
+#define LIGHT_SENSOR  39  // LDR via diviseur – entrée ADC 3.3V max, R typique 10 kO
+#define NEOPIXEL       2  // Data NeoPixel – sortie 3.3V (partagé avec LED_BUILTIN)
 
 
 // ------------------------------------

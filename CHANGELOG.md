@@ -4,6 +4,53 @@
 - No delay, no blocking: LED remains fluid, no performance impact.
 - Documented and optimized code.
 
+## [Version 3.33.1] - 2026-01-02
+
+### 🐛 Bug Fixes
+
+**ESP32 Classic Compilation Fix**
+
+This patch release fixes a critical compilation error for the `esp32devkitc` environment caused by missing pin definitions.
+
+#### 🎯 Fixed Issues
+
+- **Missing Pin Definitions**: Added `MOTION_SENSOR` and `NEOPIXEL` constants for ESP32 Classic (DevKitC) in `board_config.h`
+  - `MOTION_SENSOR` → GPIO 34 (input-only, ideal for PIR sensor)
+  - `NEOPIXEL` → GPIO 2 (shared with LED_BUILTIN for simplicity)
+
+#### 📝 Technical Details
+
+- **Modified Files**:
+  - `include/board_config.h` - Added missing pin definitions for TARGET_ESP32_CLASSIC section
+  - `platformio.ini` - Version bump to 3.33.1
+
+- **Compilation Errors Fixed**:
+  ```
+  src/main.cpp:216:25: error: 'MOTION_SENSOR' was not declared
+  src/main.cpp:253:15: error: 'NEOPIXEL' was not declared
+  include/web_interface.h:510:16: error: 'MOTION_SENSOR' was not declared
+  ```
+
+#### 🔧 Pin Assignments (ESP32 Classic)
+
+| Constant | GPIO | Type | Notes |
+|----------|------|------|-------|
+| MOTION_SENSOR | 34 | Input | GPIO34 is input-only, ideal for PIR |
+| NEOPIXEL | 2 | Output | Shared with LED_BUILTIN |
+
+#### ⚠️ Important Notes
+
+- **ESP32-S3**: No changes required (pins already defined)
+- **ESP32 Classic**: Users can now compile and use MOTION_SENSOR and NEOPIXEL features
+- **GPIO Sharing**: NEOPIXEL (GPIO 2) is shared with LED_BUILTIN - users should choose one or the other in their hardware setup
+
+### 🔄 Version Control
+
+- **Version bumped**: `3.33.0` → `3.33.1` in `platformio.ini`
+- This is a **PATCH** version increment per SEMVER (bugfix, backward compatible)
+
+---
+
 ## [Version 3.33.0] - 2025-12-29
 
 ### 🚀 TFT, NeoPixel & BOOT Improvements

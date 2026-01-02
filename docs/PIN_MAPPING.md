@@ -1,8 +1,10 @@
-# Pin Mapping – Quick Reference (v3.33.0)
+# Pin Mapping – Quick Reference (v3.33.1)
+
+> NEW in v3.33.1: Added missing MOTION_SENSOR and NEOPIXEL pin definitions for ESP32 Classic (compilation fix).
 
 > NEW in v3.33.0: Smooth TFT progress bar, purple NeoPixel, robust BOOT logic, and dynamic TFT controller selection (ILI9341 or ST7789). See FEATURE_MATRIX.md and RELEASE_NOTES_3.33.0.md.
 
-> WARNING: This document reflects the EXACT pin mapping from `include/board_config.h` as of v3.33.0. All GPIO assignments have been verified and synchronized with the codebase. Incorrect wiring may damage your ESP32 or peripherals. Read this entire document before flashing.
+> WARNING: This document reflects the EXACT pin mapping from `include/board_config.h` as of v3.33.1. All GPIO assignments have been verified and synchronized with the codebase. Incorrect wiring may damage your ESP32 or peripherals. Read this entire document before flashing.
 
 ## Supported Environments
 
@@ -109,6 +111,7 @@ Pin mappings are defined in `include/board_config.h` using conditional compilati
 
 ### Sensors
 - **DHT (Temperature/Humidity):** GPIO 15
+- **PIR Motion Sensor:** GPIO 34 (input-only, added in v3.33.1)
 - **Light Sensor (ADC):** GPIO 39
 - **HC-SR04 Distance Sensor:** TRIG GPIO 1 ⚠️ (was GPIO 12 - INCORRECT!) / ECHO GPIO 35
 - **Buzzer:** GPIO 19
@@ -124,8 +127,10 @@ Pin mappings are defined in `include/board_config.h` using conditional compilati
 - **Backlight (BL):** GPIO 32
 
 ### SD Card (SPI)
-- **Note:** SD card support varies by board configuration
-- Check `board_config.h` for your specific ESP32 Classic wiring
+- **MISO:** GPIO 19
+- **MOSI:** GPIO 13 (shared with TFT)
+- **SCLK:** GPIO 5 (shared with TFT)
+- **CS:** GPIO 4
 
 ### GPS Module (UART2)
 - **RXD:** GPIO 16 (RX2, GPS TX → ESP RX)
@@ -133,8 +138,8 @@ Pin mappings are defined in `include/board_config.h` using conditional compilati
 - **PPS:** GPIO 36
 
 ### NeoPixel / WS2812B
-- **Pin:** -1 (disabled by default)
-- **Count:** 8 LEDs
+- **Pin:** GPIO 2 (shared with LED_BUILTIN, added in v3.33.1)
+- **Count:** 1 LED
 - **Brightness:** 50 (0-255)
 
 ### ESP32 Classic Important Notes
@@ -256,6 +261,13 @@ pio run -e esp32devkitc --target upload
 ---
 
 ## Version History
+
+- **v3.33.1 (2026-01-02):** ✅ **ESP32 Classic Compilation Fix**
+  - Added missing MOTION_SENSOR (GPIO 34) and NEOPIXEL (GPIO 2) definitions for ESP32 Classic
+  - Fixed compilation errors in `esp32devkitc` environment
+  - MOTION_SENSOR uses GPIO 34 (input-only, ideal for PIR sensor)
+  - NEOPIXEL uses GPIO 2 (shared with LED_BUILTIN for simplicity)
+  - ESP32-S3 pin mapping unchanged
 
 - **v3.28.5 (2025-12-24):** ✅ **Input device monitoring fixes**
   - Fixed rotary encoder button stuck "Pressed" - now reads real GPIO state

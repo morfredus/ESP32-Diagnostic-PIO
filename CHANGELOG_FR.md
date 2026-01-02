@@ -1,3 +1,50 @@
+## [Version 3.33.1] - 2026-01-02
+
+### 🐛 Corrections de Bugs
+
+**Correction de Compilation pour ESP32 Classic**
+
+Cette version corrective résout une erreur de compilation critique pour l'environnement `esp32devkitc` causée par des définitions de broches manquantes.
+
+#### 🎯 Problèmes Corrigés
+
+- **Définitions de Broches Manquantes** : Ajout des constantes `MOTION_SENSOR` et `NEOPIXEL` pour ESP32 Classic (DevKitC) dans `board_config.h`
+  - `MOTION_SENSOR` → GPIO 34 (entrée uniquement, idéal pour capteur PIR)
+  - `NEOPIXEL` → GPIO 2 (partagé avec LED_BUILTIN pour simplicité)
+
+#### 📝 Détails Techniques
+
+- **Fichiers Modifiés** :
+  - `include/board_config.h` - Ajout des définitions de broches manquantes pour la section TARGET_ESP32_CLASSIC
+  - `platformio.ini` - Incrémentation de version à 3.33.1
+
+- **Erreurs de Compilation Corrigées** :
+  ```
+  src/main.cpp:216:25: error: 'MOTION_SENSOR' was not declared
+  src/main.cpp:253:15: error: 'NEOPIXEL' was not declared
+  include/web_interface.h:510:16: error: 'MOTION_SENSOR' was not declared
+  ```
+
+#### 🔧 Assignation des Broches (ESP32 Classic)
+
+| Constante | GPIO | Type | Notes |
+|-----------|------|------|-------|
+| MOTION_SENSOR | 34 | Entrée | GPIO34 est entrée uniquement, idéal pour PIR |
+| NEOPIXEL | 2 | Sortie | Partagé avec LED_BUILTIN |
+
+#### ⚠️ Notes Importantes
+
+- **ESP32-S3** : Aucun changement requis (broches déjà définies)
+- **ESP32 Classic** : Les utilisateurs peuvent maintenant compiler et utiliser les fonctionnalités MOTION_SENSOR et NEOPIXEL
+- **Partage GPIO** : NEOPIXEL (GPIO 2) est partagé avec LED_BUILTIN - les utilisateurs doivent choisir l'un ou l'autre dans leur configuration matérielle
+
+### 🔄 Contrôle de Version
+
+- **Version incrémentée** : `3.33.0` → `3.33.1` dans `platformio.ini`
+- Ceci est une incrémentation de version **PATCH** selon SEMVER (correction de bug, rétrocompatible)
+
+---
+
 ## [Version 3.33.0] - 2025-12-29
 
 ### 🚀 Améliorations TFT, NeoPixel et BOOT

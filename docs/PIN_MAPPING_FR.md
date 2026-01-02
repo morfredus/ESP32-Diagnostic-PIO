@@ -1,8 +1,10 @@
-# Mapping des pins — Référence rapide (v3.33.0)
+# Mapping des pins — Référence rapide (v3.33.1)
+
+> NOUVEAUTÉ v3.33.1 : Ajout des définitions de broches MOTION_SENSOR et NEOPIXEL manquantes pour ESP32 Classic (correction de compilation).
 
 > NOUVEAUTÉ v3.33.0 : Barre de progression TFT fluide, NeoPixel violet, logique BOOT robuste, et sélection dynamique du contrôleur TFT (ILI9341 ou ST7789). Voir FEATURE_MATRIX_FR.md et RELEASE_NOTES_3.33.0_FR.md.
 
-> **AVERTISSEMENT** : Ce document reflète le mapping de pins EXACT depuis `include/board_config.h` version v3.33.0. Toutes les assignations GPIO ont été vérifiées et synchronisées avec le code. Un câblage incorrect peut endommager votre ESP32 ou vos périphériques. Lisez ce document entièrement avant de flasher.
+> **AVERTISSEMENT** : Ce document reflète le mapping de pins EXACT depuis `include/board_config.h` version v3.33.1. Toutes les assignations GPIO ont été vérifiées et synchronisées avec le code. Un câblage incorrect peut endommager votre ESP32 ou vos périphériques. Lisez ce document entièrement avant de flasher.
 
 - **Cartes supportées :**
   - ESP32-S3-DevKitC-1 N16R8 (16Mo Flash, 8Mo PSRAM) — `esp32s3_n16r8`
@@ -43,14 +45,15 @@
 - **LED RGB :** R=13, V=26, B=33
 - **Capteurs :**
   - DHT=15
+  - Mouvement (PIR)=34 (entrée seule, ajouté en v3.33.1)
   - Lumière=39
   - HC-SR04 : TRIG=1 ⚠️ (était 12 dans docs v3.22.1 — FAUX !), ECHO=35
   - PWM=4
   - Buzzer=19
 - **TFT ST7789 :** MISO=19 (si nécessaire), MOSI=23, SCLK=18, CS=27, DC=14, RST=25, BL=32
-- **Carte SD (SPI) :** Varie selon configuration — voir `board_config.h`
+- **Carte SD (SPI) :** MISO=19, MOSI=13 (partagé avec TFT), SCLK=5 (partagé avec TFT), CS=4
 - **GPS (UART2) :** RXD=16, TXD=17, PPS=36
-- **NeoPixel :** pin `-1` (désactivé par défaut), nombre 8, luminosité 50
+- **NeoPixel :** pin 2 (partagé avec LED_BUILTIN, ajouté en v3.33.1), nombre 1, luminosité 50
 - **Notes importantes :**
   - Broches entrée seule : GPIO 34/35/36/39 — lecture uniquement, pas de sortie
   - Broches de strapping : GPIO 0/2/4/5/12/15 — garder stables au boot
@@ -136,6 +139,13 @@ pio run -e esp32devkitc --target upload
 - **Courant :** ~60mA par LED en blanc complet
 
 ## Historique des versions
+
+- **v3.33.1 (2026-01-02) :** ✅ **Correction de Compilation pour ESP32 Classic**
+  - Ajout des définitions manquantes MOTION_SENSOR (GPIO 34) et NEOPIXEL (GPIO 2) pour ESP32 Classic
+  - Correction des erreurs de compilation dans l'environnement `esp32devkitc`
+  - MOTION_SENSOR utilise GPIO 34 (entrée seule, idéal pour capteur PIR)
+  - NEOPIXEL utilise GPIO 2 (partagé avec LED_BUILTIN pour simplicité)
+  - Mapping de pins ESP32-S3 inchangé
 
 - **v3.28.5 (2025-12-24) :** ✅ **Corrections du monitoring des dispositifs d'entrée**
   - Correction bouton encodeur bloqué sur "Pressed" - lecture d'état GPIO réel
