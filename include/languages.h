@@ -421,6 +421,8 @@ class TextField {
   X(tft_test_running, "TFT test in progress...", "Test TFT en cours...") \
   X(tft_step_running, "TFT step executing...", "Étape TFT en cours...") \
   X(restoring_boot_screen, "Restoring boot screen...", "Restauration de l'écran de démarrage...") \
+  X(tft_brightness, "Brightness", "Luminosité") \
+  X(brightness_level, "Brightness level", "Niveau de luminosité") \
   X(gps_sensor, "GPS Module", "Module GPS") \
   X(gps_sensor_desc, "Global Positioning System receiver (NEO-6M/NEO-8M)", "Récepteur GPS (NEO-6M/NEO-8M)") \
   X(gps_latitude, "Latitude", "Latitude") \

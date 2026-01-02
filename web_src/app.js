@@ -691,6 +691,16 @@ function buildScreens(d) {
         }
         h += '</select><br>';
         h += ' <span style="margin-left:15px">Driver:</span> <select id="tftDriver" style="width:100px;padding:5px"><option value="ILI9341"' + (d.tft.driver === 'ILI9341' ? ' selected' : '') + '>ILI9341</option><option value="ST7789"' + (d.tft.driver === 'ST7789' ? ' selected' : '') + '>ST7789</option></select><br>';
+        h += '<div style="margin-top:15px;padding:10px;background:#f0f8ff;border-radius:5px">';
+        h += '<strong data-i18n="tft_brightness">' + tr('tft_brightness') + '</strong><br>';
+        h += '<input type="range" id="tftBrightnessSlider" min="0" max="255" value="255" style="width:80%;margin:10px 0" oninput="updateBrightnessValue(this.value)" onchange="setTFTBrightnessLevel(this.value)">';
+        h += '<span id="tftBrightnessValue" style="margin-left:10px;font-weight:bold">255</span> / 255<br>';
+        h += '<button class="btn btn-sm" onclick="setTFTBrightnessLevel(0)" style="margin:2px">OFF</button> ';
+        h += '<button class="btn btn-sm" onclick="setTFTBrightnessLevel(64)" style="margin:2px">25%</button> ';
+        h += '<button class="btn btn-sm" onclick="setTFTBrightnessLevel(128)" style="margin:2px">50%</button> ';
+        h += '<button class="btn btn-sm" onclick="setTFTBrightnessLevel(192)" style="margin:2px">75%</button> ';
+        h += '<button class="btn btn-sm" onclick="setTFTBrightnessLevel(255)" style="margin:2px">100%</button>';
+        h += '</div>';
         h += '<button class="btn btn-primary" data-i18n="apply_config" data-i18n-prefix="⚙️" onclick="configTFT()">' + tr('apply_config') + '</button>';
         h += '</div>';
         if (hasTft) {
@@ -1267,6 +1277,58 @@ async function configTFT() {
         }, 'error');
     }
 }
+
+// ============================================================
+// TFT BRIGHTNESS CONTROL FUNCTIONS (v3.33.3)
+// ============================================================
+
+// Update brightness value display when slider moves
+function updateBrightnessValue(value) {
+    document.getElementById('tftBrightnessValue').textContent = value;
+}
+
+// Set TFT brightness to specific level
+async function setTFTBrightnessLevel(level) {
+    const slider = document.getElementById('tftBrightnessSlider');
+    const valueDisplay = document.getElementById('tftBrightnessValue');
+
+    if (slider) slider.value = level;
+    if (valueDisplay) valueDisplay.textContent = level;
+
+    try {
+        const r = await fetch('/api/tft-brightness?value=' + level, {
+            method: 'POST'
+        });
+        const d = await r.json();
+
+        if (d.success) {
+            console.log('TFT brightness set to ' + level + '/255');
+        } else {
+            console.error('Failed to set TFT brightness: ' + d.message);
+        }
+    } catch (e) {
+        console.error('Error setting TFT brightness: ' + e);
+    }
+}
+
+// Get current TFT brightness from API
+async function getTFTBrightness() {
+    try {
+        const r = await fetch('/api/tft-brightness');
+        const d = await r.json();
+
+        if (d.success && d.brightness !== undefined) {
+            const slider = document.getElementById('tftBrightnessSlider');
+            const valueDisplay = document.getElementById('tftBrightnessValue');
+
+            if (slider) slider.value = d.brightness;
+            if (valueDisplay) valueDisplay.textContent = d.brightness;
+        }
+    } catch (e) {
+        console.error('Error getting TFT brightness: ' + e);
+    }
+}
+
 async function testADC() {
     setStatus('adc-status', {
         key: 'test_in_progress'

@@ -1,3 +1,68 @@
+## [Version 3.33.3] - 2026-01-02
+
+### ✨ Amélioration de l'Interface Utilisateur
+
+**Interface Web de Contrôle de la Luminosité TFT**
+
+Cette version corrective ajoute des contrôles d'interface web conviviaux pour la fonction de luminosité TFT introduite en v3.33.2, complétant l'implémentation du contrôle de luminosité.
+
+#### 🎯 Nouvelles Fonctionnalités
+
+- **Curseur de Luminosité Interactif** : Contrôle en temps réel de la luminosité (0-255) dans la section Écran TFT
+- **Affichage de Valeur en Direct** : Niveau de luminosité actuel affiché à côté du curseur
+- **Boutons Prédéfinis** : Accès rapide aux niveaux (OFF, 25%, 50%, 75%, 100%)
+- **Support Bilingue** : Traductions complètes FR/EN pour tous les éléments d'interface
+- **Design Réactif** : Curseur stylisé avec fond en dégradé et effets au survol
+
+#### 📝 Détails Techniques
+
+- **Fichiers Modifiés** :
+  - `web_src/app.js` - HTML du curseur de luminosité et fonctions JavaScript
+  - `web_src/styles.css` - Style moderne pour le curseur de plage
+  - `include/languages.h` - Traductions FR/EN (`tft_brightness`, `brightness_level`)
+  - `platformio.ini` - Incrémentation de version à 3.33.3
+
+- **Nouvelles Fonctions JavaScript** :
+  ```javascript
+  updateBrightnessValue(value)      // Mise à jour affichage lors du déplacement
+  setTFTBrightnessLevel(level)      // Définir luminosité via API
+  getTFTBrightness()                // Récupérer luminosité actuelle du périphérique
+  ```
+
+- **Emplacement Interface Web** : Affichage & Signal → Section Écran TFT (sous sélection du pilote)
+
+#### 🎨 Composants d'Interface
+
+- **Curseur de Plage** : 0-255 avec affichage de valeur en direct
+- **Boutons Prédéfinis** :
+  - OFF (0)
+  - 25% (64)
+  - 50% (128)
+  - 75% (192)
+  - 100% (255)
+- **Style Visuel** : Piste du curseur en dégradé, poignée cyan avec effets d'ombre
+
+#### 🌐 Traductions Ajoutées
+
+| Clé | English | Français |
+|-----|---------|----------|
+| `tft_brightness` | Brightness | Luminosité |
+| `brightness_level` | Brightness level | Niveau de luminosité |
+
+#### ⚠️ Notes Importantes
+
+- **Exigence Backend** : Nécessite le backend v3.33.2 (API PWM de luminosité)
+- **Minification** : Exécuter `python tools/minify_web.py` pour intégrer les modifications web
+- **app-lite.js** : Aucune modification nécessaire (version simplifiée n'inclut pas les fonctionnalités TFT)
+- **Mise à Jour en Direct** : Les modifications du curseur s'appliquent immédiatement via le point de terminaison `/api/tft-brightness`
+
+### 🔄 Contrôle de Version
+
+- **Version incrémentée** : `3.33.2` → `3.33.3` dans `platformio.ini`
+- Ceci est une incrémentation de version **PATCH** selon SEMVER (amélioration UI, rétrocompatible)
+
+---
+
 ## [Version 3.33.2] - 2026-01-02
 
 ### ✨ Nouvelles Fonctionnalités

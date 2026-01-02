@@ -4,6 +4,71 @@
 - No delay, no blocking: LED remains fluid, no performance impact.
 - Documented and optimized code.
 
+## [Version 3.33.3] - 2026-01-02
+
+### ✨ User Interface Enhancement
+
+**TFT Brightness Control Web UI**
+
+This patch release adds user-friendly web interface controls for the TFT brightness feature introduced in v3.33.2, completing the brightness control implementation.
+
+#### 🎯 New Features
+
+- **Interactive Brightness Slider**: Real-time brightness control (0-255) in TFT Display section
+- **Live Value Display**: Current brightness level shown next to slider
+- **Preset Buttons**: Quick access buttons (OFF, 25%, 50%, 75%, 100%)
+- **Bilingual Support**: Full FR/EN translations for all UI elements
+- **Responsive Design**: Styled slider with gradient background and hover effects
+
+#### 📝 Technical Details
+
+- **Modified Files**:
+  - `web_src/app.js` - Brightness slider HTML and JavaScript functions
+  - `web_src/styles.css` - Modern range input styling
+  - `include/languages.h` - FR/EN translations (`tft_brightness`, `brightness_level`)
+  - `platformio.ini` - Version bump to 3.33.3
+
+- **New JavaScript Functions**:
+  ```javascript
+  updateBrightnessValue(value)      // Update display when slider moves
+  setTFTBrightnessLevel(level)      // Set brightness via API
+  getTFTBrightness()                // Fetch current brightness from device
+  ```
+
+- **Web Interface Location**: Display & Signal → TFT Display section (below driver selection)
+
+#### 🎨 UI Components
+
+- **Range Slider**: 0-255 with live value display
+- **Preset Buttons**:
+  - OFF (0)
+  - 25% (64)
+  - 50% (128)
+  - 75% (192)
+  - 100% (255)
+- **Visual Styling**: Gradient slider track, cyan thumb with shadow effects
+
+#### 🌐 Translations Added
+
+| Key | English | Français |
+|-----|---------|----------|
+| `tft_brightness` | Brightness | Luminosité |
+| `brightness_level` | Brightness level | Niveau de luminosité |
+
+#### ⚠️ Important Notes
+
+- **Backend Requirement**: Requires v3.33.2 backend (PWM brightness API)
+- **Minification**: Run `python tools/minify_web.py` to embed web changes
+- **app-lite.js**: No changes needed (simplified version doesn't include TFT features)
+- **Live Update**: Slider changes apply immediately via `/api/tft-brightness` endpoint
+
+### 🔄 Version Control
+
+- **Version bumped**: `3.33.2` → `3.33.3` in `platformio.ini`
+- This is a **PATCH** version increment per SEMVER (UI enhancement, backward compatible)
+
+---
+
 ## [Version 3.33.2] - 2026-01-02
 
 ### ✨ New Features
