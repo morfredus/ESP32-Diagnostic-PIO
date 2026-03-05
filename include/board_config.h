@@ -187,7 +187,7 @@
 #define LED_GREEN_PIN   26 // LED Verte — sortie
 #define LED_BLUE_PIN    25 // LED Bleue — sortie
 #define NEOPIXEL_PIN     2 // NeoPixel — sortie
-
+#define LED_BUILTIN NEOPIXEL_PIN // LED intégrée (si présente) — sortie
 
 // ============================================================
 // Boutons
